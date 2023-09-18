@@ -17,21 +17,21 @@ Then, activate this environment:
   conda activate HNGD-env
 ```
 
-Move to the directory you want to install this package (`cd C:\path\to\install`) and run:
+And install the package as:
 
 ```
-  pip install git+https://github.com/franciscorotea/HNGD-Model
-```
-
-This installs all neccesary dependencies (`numpy`, `numba`, `matplotlib`, `tqdm`). 
-
-**IMPORTANT:**: If you want an [editable version](https://setuptools.pypa.io/en/latest/userguide/development_mode.html) of the code (i. e. a version for developers), install the package as:
-
-```
-  pip install -e git+https://github.com/franciscorotea/HNGD-Model
+  pip install hngd
 ```
 
 If you are not using Anaconda, you can use a similar procedure with the [venv module](https://docs.python.org/3/library/venv.html).
+
+### For developers
+
+If you want an [editable version](https://setuptools.pypa.io/en/latest/userguide/development_mode.html) of the code (i. e. a version for developers), clone this repository to the desired location, move to that directory (`cd C:\path\to\install\HNGD-Model`) and install the package as:
+
+```
+  pip install -e .
+```
 
 ## How to use
 
@@ -150,9 +150,9 @@ Corresponds to a uniform initial hydrogen profile of 205 wt.ppm.
 The HNGD model has a large number of parameters regarding Hydrogen solubility and diffusion, formation energy of hydrides, kinetics of nucleation, growth and dissolution, etc. Default model parameters can be imported and used as:
 
 ```python
-import HNGD.default
+import hngd.default
 
-model_parameters = HNGD.default.model_parameters
+model_parameters = hngd.default.model_parameters
 ```
 
 Then, `model_parameters` is a Python dictionary with the following keys and values:
@@ -188,11 +188,11 @@ model_parameters['Ed'] = 0.47
 
 ### Running a simulation
 
-In order to run a simulation, the `HNGD.run` module is imported. Then, set up the input parameters described in the previous section, and use the `simulation` function as:
+In order to run a simulation, the `hngd.run` module is imported. Then, set up the input parameters described in the previous section, and use the `simulation` function as:
 
 ```python
-import HNGD.run
-import HNGD.default
+import hngd.run
+import hngd.default
 import numpy as np
 
 experiment_data = (0.025, 0, 0, 1, 0)
@@ -209,9 +209,9 @@ temperature_data = np.array([[np.nan,   0, experiment_data[0]],
 initial_hydrogen_data = np.array([[  0, experiment_data[0]],
                                   [205,               205]])
 
-model_parameters = HNGD.default.model_parameters
+model_parameters = hngd.default.model_parameters
 
-HNGD.run.simulation(temperature_data, initial_hydrogen_data, experiment_data, 
+hngd.run.simulation(temperature_data, initial_hydrogen_data, experiment_data, 
                     simulation_data, model_parameters)
 ```
 
@@ -227,12 +227,12 @@ There are additional optional parameters for the simulation function:
 
 ### Running an animation
 
-In order to run an animation, the `HNGD.run` module is imported. Then, set up the input parameters described in the previous section, and use the `animation` function as:
+In order to run an animation, the `hngd.run` module is imported. Then, set up the input parameters described in the previous section, and use the `animation` function as:
 
 ```python
 import numpy as np
-import HNGD.default_model_parameters
-import HNGD.run
+import hngd.default_model_parameters
+import hngd.run
 
 experiment_data = (0.025, 0, 0, 1, 0)
 
@@ -247,9 +247,9 @@ temperature_data = np.array([[np.nan,   0, experiment_data[0]],
 initial_hydrogen_data = np.array([[  0, experiment_data[0]],
                                   [205,               205]])
 
-model_parameters = HNGD.default_model_parameters.model_parameters
+model_parameters = hngd.default_model_parameters.model_parameters
 
-animation = HNGD.run.animation(temperature_data, initial_hydrogen_data, 
+animation = hngd.run.animation(temperature_data, initial_hydrogen_data, 
                                experiment_data, simulation_data, model_parameters)
 ```
 
@@ -264,7 +264,7 @@ There are additional optional parameters for the animation function:
 
 ### Others
 
-There are several other possibilities of the code, such as running a time-temperature-transformation experiment (TTT diagram) using `HNGD.run.TTT`, or using `HNGD.run.debugger` if you are a developer and want to modify the source code and need a debugger. Some of these applications can be found in the Examples folder of this repository. 
+There are several other possibilities of the code, such as running a time-temperature-transformation experiment (TTT diagram) using `hngd.run.TTT`, or using `hngd.run.debugger` if you are a developer and want to modify the source code and need a debugger. Some of these applications can be found in the Examples folder of this repository. 
 
 ## Note for Developers
 
@@ -276,7 +276,7 @@ If you are making changes to the code and want to use the debugger to do some te
  DISABLE_JIT: True
 ```
 
-in the `.numba_config.yaml` file which is located at the `HNGD` folder.
+in the `.numba_config.yaml` file which is located at the `hngd` folder.
 
 ## References
 
