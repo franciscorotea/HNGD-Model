@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["hngd"]
+
+[project]
+name = "hngd"
+version = "1.0.0"
+authors = [
+    {name = "Francisco Rotea", email = "francisco.rotea@gmail.com"},
+]
+description = "Implementation of the Hydride Nucleation-Growth-Dissolution (HNGD) model. Simulates hydrogen behaviour in a 1D geometry using an explicit finite difference scheme (Euler method)."
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["HNGD", "Hydrogen", "Hydrides", "Nuclear fuel cladding", "Diffusion"]
+license = {text = "BSD-3-Clause"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "numpy",
+    "matplotlib",
+    "numba",
+    "tqdm",
+]
+
+[project.urls]
+Repository = "https://github.com/franciscorotea/"
