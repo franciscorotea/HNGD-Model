@@ -7,7 +7,7 @@ packages = ["hngd"]
 
 [project]
 name = "hngd"
-version = "1.0.0"
+version = "1.0.1"
 authors = [
     {name = "Francisco Rotea", email = "francisco.rotea@gmail.com"},
 ]
@@ -28,4 +28,4 @@ dependencies = [
 ]
 
 [project.urls]
-Repository = "https://github.com/franciscorotea/"
+Repository = "https://github.com/franciscorotea/HNGD-Model/"
