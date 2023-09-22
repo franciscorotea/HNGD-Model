@@ -1,5 +1,5 @@
-import HNGD.run
-import HNGD.default
+import hngd.run
+import hngd.default
 import experimental_data
 import numpy as np
 
@@ -24,7 +24,7 @@ temperature_data = data['temperature_data']
 initial_hydrogen_data = np.array([[ 0, slab_length-hydride_rim, slab_length-hydride_rim+1e-12,               slab_length],
                                   [10,                      10,      data['initial_hydrogen'], data['initial_hydrogen']]])
    
-model_parameters = HNGD.default.model_parameters
+model_parameters = hngd.default.model_parameters
 
 model_parameters['TSSd0'] = 510800
 model_parameters['Q_TSSd'] = 45610
@@ -36,5 +36,5 @@ model_parameters['Ed'] = 0.47
 
 # Run animation.
 
-anim = HNGD.run.animation(temperature_data, initial_hydrogen_data, experiment_data, 
+anim = hngd.run.animation(temperature_data, initial_hydrogen_data, experiment_data, 
                           simulation_data, model_parameters, interval=2)

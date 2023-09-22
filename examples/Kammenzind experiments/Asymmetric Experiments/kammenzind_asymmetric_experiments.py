@@ -1,5 +1,5 @@
-import HNGD.run
-import HNGD.default
+import hngd.run
+import hngd.default
 import experimental_data
 import numpy as np
 import matplotlib.pyplot as plt
@@ -37,7 +37,7 @@ hydride_rim = 0.100*1e-2
 
 experiment_data = (slab_length, 0, 0, 1, 0)
 
-model_parameters = HNGD.default.model_parameters
+model_parameters = hngd.default.model_parameters
 
 # TSSp and TSSd of Zry-4 by Zanellato et al.
 
@@ -68,7 +68,7 @@ for i, (experiment, data) in enumerate(experimental_data.asymmetric_cases.items(
                                       [10,                      10,      data['initial_hydrogen'], data['initial_hydrogen']]])
     model_parameters['Q_star'] = data['heat_of_transport']
     
-    HNGD.run.simulation(temperature_data, initial_hydrogen_data, experiment_data, 
+    hngd.run.simulation(temperature_data, initial_hydrogen_data, experiment_data, 
                         simulation_data, model_parameters, save_results=False, 
                         save_last_concentration_profile=True)
     
