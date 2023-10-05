@@ -13,7 +13,7 @@ authors = [
 ]
 description = "Implementation of the Hydride Nucleation-Growth-Dissolution (HNGD) model. Simulates hydrogen behaviour in a 1D geometry using an explicit finite difference scheme (Euler method)."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.10,<3.12"
 keywords = ["HNGD", "Hydrogen", "Hydrides", "Nuclear fuel cladding", "Diffusion"]
 license = {text = "BSD-3-Clause"}
 classifiers = [
