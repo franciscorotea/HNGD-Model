@@ -5,10 +5,10 @@ A package with an implementation of the Hydride Nucleation-Growth-Dissolution
 
 ## Installation
 
-It is highly recommended that you install this package in an isolated virtual environment. If you are using [Anaconda](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html), open Anaconda Prompt and create the environment `HNGD-env` with the latest Python version:
+It is highly recommended that you install this package in an isolated virtual environment. If you are using [Anaconda](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html), open Anaconda Prompt and create the environment `HNGD-env`:
 
 ```
-  conda create --name HNGD-env python
+  conda create --name HNGD-env
 ```
 
 Then, activate this environment:
@@ -24,6 +24,8 @@ And install the package as:
 ```
 
 If you are not using Anaconda, you can use a similar procedure with the [venv module](https://docs.python.org/3/library/venv.html).
+
+**Note:** If you don't have the requiered Python version for this package, you can try `conda install python=3.11` after activating the environment and then install the package.
 
 ### For developers
 
