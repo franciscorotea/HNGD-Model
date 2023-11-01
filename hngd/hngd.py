@@ -33,6 +33,8 @@ Ref.:
 
 import numpy as np
 from numba import njit
+#from numba import config
+#config.DISABLE_JIT=True
 
 ###############################################################################
 
@@ -1046,10 +1048,10 @@ def simulate(temperature_data, hydrogen_data, experiment_data, simulation_data, 
         temperature_profile_changed = profile_changed(temperature_profile[:,1], ref_temperature_profile, criterion)
         
         if hydrogen_profile_changed:
-            ref_hydrogen_profile = total_hydrogen_profile
+            ref_hydrogen_profile = np.copy(total_hydrogen_profile)
         
         if temperature_profile_changed:
-            ref_temperature_profile = temperature_profile[:,1]
+            ref_temperature_profile = np.copy(temperature_profile[:,1])
             
         # Saving the output at every time step could result in very large 
         # files. So, an output at this time step will be shown if: (1) either 
