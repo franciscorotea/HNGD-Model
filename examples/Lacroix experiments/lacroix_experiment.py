@@ -20,7 +20,7 @@ dissolution in zirconium alloy', Journal of Nuclear Materials 509, pp. 162-167
 
 experiment_data = (0.025, 0, 0, 1, 0)
 
-simulation_data = ('lacroix_experiment', 5, 2, 20, 0.001, 'mHNGD')
+simulation_data = ('lacroix_experiment', 5, 2, 20, 0.01, 'mHNGD')
 
 temperature_data = np.array([[np.nan,   0, experiment_data[0]],
                              [     0,  20,                 20],
