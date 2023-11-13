@@ -185,7 +185,7 @@ def TTT(hydrogen_data, experiment_data, simulation_data, model_parameters,
     print(f'\nSimulation completed, TTT results saved at {os.getcwd()}\Outputs\{simulation_data[0]}.txt.')
 
 def animation(temperature_data, initial_hydrogen_data, experiment_data, simulation_data, 
-              model_parameters, node=None, save_animation=False, interval=5, repeat=False, ylim=None):
+              model_parameters, kind='all', node=None, save_animation=False, interval=5, repeat=False, ylim=None):
     
     if not node:
         node = simulation_data[1]//2 + 1
@@ -194,15 +194,13 @@ def animation(temperature_data, initial_hydrogen_data, experiment_data, simulati
     
     # Create figure and set up titles, labels, limits, etc.
 
-    fig, ((ax1, ax2), (ax3, ax4)) = set_up_figure(temperature_data, 
-                                                  initial_hydrogen_data, 
-                                                  experiment_data, simulation_data, 
-                                                  model_parameters, 
-                                                  node, ylim)
+    fig, ax = set_up_figure(temperature_data, initial_hydrogen_data, 
+                            experiment_data, simulation_data, model_parameters, 
+                            kind, node, ylim)
 
     # Create all lines to be animated in each axis.
 
-    lines, texts = set_up_lines(ax1, ax2, ax3, ax4)
+    lines, texts = set_up_lines(ax, kind)
     
     # Empty lists to animate temperature and hydrogen temporal evolution.
     
@@ -214,7 +212,7 @@ def animation(temperature_data, initial_hydrogen_data, experiment_data, simulati
                                               func=animate,
                                               init_func=partial(init_animate, lines), 
                                               frames=partial(simulate, temperature_data, initial_hydrogen_data, experiment_data, simulation_data, model_parameters)(),
-                                              fargs=(lines, texts, node, t_max, time_evol, temp_evol, hydr_evol),
+                                              fargs=(lines, texts, node, t_max, kind, time_evol, temp_evol, hydr_evol),
                                               interval=interval,
                                               repeat=repeat, 
                                               blit=True,
