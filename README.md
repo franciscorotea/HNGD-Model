@@ -259,6 +259,7 @@ The animation shows four plots: the evolution of the hydrogen profile (top, left
 
 There are additional optional parameters for the animation function:
 
+- `kind`: Select what kind of animation you want. Options are 'all', 'hydrogen profile', 'temperature profile', 'temperature+hydrogen profile', 'hydrogen evolution', 'temperature evolution' or 'temperature+hydrogen evolution'. Defaults to 'all'.
 - `node`: Which node is used to animate the temporal evolution. Defaults to the node at the middle of the sample (i. e., `simulation_data[1]//2`).
 - `save_animation`: If you want to save the animation as a gif. Defaults to False. *Note: When `save_animation=True`, the animation will not be displayed (to fix!).*
 - `interval`: Delay between frames in milliseconds. Defaults to 5.
