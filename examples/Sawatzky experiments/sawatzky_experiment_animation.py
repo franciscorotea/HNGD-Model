@@ -13,11 +13,11 @@ data = {'1': {'C_0': 130,
               'thermal_treatment': np.array([[   np.nan,   0, experiment_data[0]],
                                              [        0, 130,                477],
                                              [ 34*60*24, 130,                477]])},
-        '2': {'C_0': 130,
-              'ylim': 600,
+        '2': {'C_0': 64,
+              'ylim': 300,
               'thermal_treatment': np.array([[   np.nan,   0, experiment_data[0]],
-                                             [        0, 130,                477],
-                                             [ 34*60*24, 130,                477]])}}
+                                             [        0, 157,                454],
+                                             [ 41*60*24, 157,                454]])}}
 
 simulation_data = (experiment, 100, 2, 1000, 0.05, 'mHNGD')
 
