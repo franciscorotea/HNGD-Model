@@ -14,5 +14,5 @@ temperature_data = np.array([[np.nan,   0, 0.025/2, 0.025],
 
 # Run simulation
 
-anim = hngd.run.thermal_history_animation(temperature_data, X=10, dt=0.6,
+anim = hngd.run.thermal_history_animation(temperature_data, n_nodes=10, dt=0.6,
                                           interval=50)
