@@ -185,7 +185,9 @@ def TTT(hydrogen_data, experiment_data, simulation_data, model_parameters,
     print(f'\nSimulation completed, TTT results saved at {os.getcwd()}\Outputs\{simulation_data[0]}.txt.')
 
 def animation(temperature_data, initial_hydrogen_data, experiment_data, simulation_data, 
-              model_parameters, kind='all', node=None, save_animation=False, interval=5, repeat=False, ylim=None):
+              model_parameters, kind='all', node=None, save_animation=False, 
+              save_format='gif', ffmpeg_path=r'C:\\ffmpeg-6.1-essentials_build\\bin\\ffmpeg.exe', 
+              interval=5, fps=20, repeat=False, ylim=None):
     
     if not node:
         node = simulation_data[1]//2 + 1
@@ -218,28 +220,46 @@ def animation(temperature_data, initial_hydrogen_data, experiment_data, simulati
                                               blit=True,
                                               cache_frame_data=False)
     
-    # TODO > The animation runs twice when save_animation=True, once for
-    # saving and once for reproducing the animation. Do it at the same time?
-    # Also, when saving animation xdata, ydata should be reset to empty lists?
-    
     if save_animation:
-        
+
         progress_callback = lambda i, n: print(f'Saving frame {i}')
         
         if not os.path.exists('Outputs'):
             os.makedirs('Outputs')
         
-        anim.save(f'Outputs\{simulation_data[0]}_animation.gif', 
-                  progress_callback=progress_callback)
+        if save_format == 'gif':
+            writer = matplotlib.animation.PillowWriter(fps=fps)
+        elif save_format in ('mp4', 'mov', 'avi'):
+            matplotlib.rcParams['animation.ffmpeg_path'] = ffmpeg_path
+            writer = matplotlib.animation.FFMpegWriter(fps=fps)
+        else:
+            print('File format not recognized. Saving as gif instead.')
+            save_format = 'gif'
+            writer = matplotlib.animation.PillowWriter(fps=fps)
         
-        print(f'\nAnimation saved at {os.getcwd()}\Outputs\{simulation_data[0]}_animation.gif.')
+        try:
+            anim.save(f'Outputs\{simulation_data[0]}_animation.{save_format}',
+                      writer=writer, progress_callback=progress_callback)
+        except:
+            print('The animation can not be saved with the video format specified. '
+                  'Try downloading ffmpeg from https://www.ffmpeg.org/ '
+                  'and point the path of the ffmpeg executable file in the "ffmpeg_path" '
+                  'input parameter of this function. Saving as gif instead.')
+            save_format = 'gif'
+            writer = matplotlib.animation.PillowWriter(fps=fps)          
+            anim.save(f'Outputs\{simulation_data[0]}_animation.{save_format}',
+                      writer=writer, progress_callback=progress_callback)
+            
+        print(f'\nAnimation saved at {os.getcwd()}\Outputs\{simulation_data[0]}_animation.{save_format}.')
         
     plt.show()
     
     return anim
 
-def thermal_history_animation(temperature_data, n_nodes=10, dt=0.1, 
-                              save_animation=False, interval=5, repeat=False):
+def thermal_history_animation(temperature_data, n_nodes=10, dt=0.1, fps=20,
+                              save_animation=False, interval=5, repeat=False,
+                              save_format='gif', 
+                              ffmpeg_path=r'C:\\ffmpeg-6.1-essentials_build\\bin\\ffmpeg.exe'):
     
     # Parse input data
 
@@ -290,16 +310,33 @@ def thermal_history_animation(temperature_data, n_nodes=10, dt=0.1,
                                               save_count=int(t_max/dt))
     
     if save_animation:
-        
+
         progress_callback = lambda i, n: print(f'Saving frame {i}')
         
-        if not os.path.exists('Outputs'):
-            os.makedirs('Outputs')
+        if save_format == 'gif':
+            writer = matplotlib.animation.PillowWriter(fps=fps)
+        elif save_format in ('mp4', 'mov', 'avi'):
+            matplotlib.rcParams['animation.ffmpeg_path'] = ffmpeg_path
+            writer = matplotlib.animation.FFMpegWriter(fps=fps)
+        else:
+            print('File format not recognized. Saving as gif instead.')
+            save_format = 'gif'
+            writer = matplotlib.animation.PillowWriter(fps=fps)
         
-        anim.save('thermal_history_animation.gif',
-                  progress_callback=progress_callback)
-        
-        print(f'\nAnimation of thermal history saved at {os.getcwd()}\Outputs\thermal_history_animation.gif.')
+        try:
+            anim.save(f'thermal_history_animation.{save_format}',
+                      writer=writer, progress_callback=progress_callback)
+        except:
+            print('The animation can not be saved with the video format specified. '
+                  'Try downloading ffmpeg from https://www.ffmpeg.org/ '
+                  'and point the path of the ffmpeg executable file in the "ffmpeg_path" '
+                  'input parameter of this function. Saving as gif instead.')
+            save_format = 'gif'
+            writer = matplotlib.animation.PillowWriter(fps=fps)          
+            anim.save(f'thermal_history_animation.{save_format}',
+                      writer=writer, progress_callback=progress_callback)
+    
+        print(f'\nAnimation of thermal history saved at {os.getcwd()}\\thermal_history_animation.{save_format}.')
         
     fig.tight_layout()
     
