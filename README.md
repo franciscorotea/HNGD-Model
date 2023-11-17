@@ -261,7 +261,9 @@ There are additional optional parameters for the animation function:
 
 - `kind`: Select what kind of animation you want. Options are 'all', 'hydrogen profile', 'temperature profile', 'temperature+hydrogen profile', 'hydrogen evolution', 'temperature evolution' or 'temperature+hydrogen evolution'. Defaults to 'all'.
 - `node`: Which node is used to animate the temporal evolution. Defaults to the node at the middle of the sample (i. e., `simulation_data[1]//2`).
-- `save_animation`: If you want to save the animation as a gif. Defaults to False. *Note: When `save_animation=True`, the animation will not be displayed (to fix!).*
+- `save_animation`: If you want to save the animation. Defaults to False. *Note: When `save_animation=True`, the animation will not be displayed (to fix!).*
+- `save_format`: In which format you want to save the animation. Options are 'gif', 'mp4', 'mov' or 'avi'. Defaults to 'gif'. *Note: If you want to save in video format (i.e. mp4, mov or avi), you need to have ffmpeg installed. See `ffmpeg_path` for more information.*
+- `ffmpeg_path`: The path that points to the ffmpeg executable needed to save the animation in video format. You can download ffmpeg for free at https://www.ffmpeg.org/.
 - `interval`: Delay between frames in milliseconds. Defaults to 5.
 - `repeat`: Whether the animation repeats when the sequence of frames is completed. Defaults to False. *Note: Currently not working (to fix!).*
 
