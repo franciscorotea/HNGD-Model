@@ -186,7 +186,7 @@ def TTT(hydrogen_data, experiment_data, simulation_data, model_parameters,
 
 def animation(temperature_data, initial_hydrogen_data, experiment_data, simulation_data, 
               model_parameters, kind='all', node=None, save_animation=False, 
-              save_format='gif', ffmpeg_path=r'C:\\ffmpeg-6.1-essentials_build\\bin\\ffmpeg.exe', 
+              save_format='gif', ffmpeg_path='C:/ffmpeg-6.1-essentials_build/bin/ffmpeg.exe', 
               interval=5, fps=20, repeat=False, ylim=None):
     
     if not node:
