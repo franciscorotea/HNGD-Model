@@ -565,8 +565,34 @@ def calc_diffusion_flux(n_nodes, flux_left, flux_right, Q_star, V_star, dx, temp
     return diffusion_flux
 
 @njit
+def calc_reaction_type(Css, Cp, TSSd, TSSp, activate_nucleation, 
+                       activate_dissolution, activate_growth):
+    
+    # Determine reaction type
+    
+    nucleation = False
+    growth = False
+    dissolution = False
+    nucleation_and_growth = False
+    
+    if np.any(Css>TSSd):
+        if np.any(Css>TSSp) and activate_nucleation:
+            nucleation = True
+        if np.any(Cp>0) and activate_growth:
+            growth = True
+        if np.any(np.logical_and(Css>TSSp, Cp>0)) and activate_nucleation and activate_growth:
+            nucleation_and_growth = True
+    elif np.any(Css<TSSd):
+        if np.any(Cp>0) and activate_dissolution:
+            dissolution = True
+    
+    reaction_type = np.array([True, nucleation, growth, dissolution, nucleation_and_growth, True])
+    
+    return reaction_type
+
+@njit
 def time_step(dx, max_K_G, max_K_N, max_K_D, Q_star, dt_div, 
-              diffusion_coefficient, temperature):
+              diffusion_coefficient, temperature, test_t_set, reaction_type):
     
     """Determine the stable time step from the forward Euler criterion. The
     applied time step is adaptively changed, as temperature and concentration
@@ -588,9 +614,15 @@ def time_step(dx, max_K_G, max_K_N, max_K_D, Q_star, dt_div,
     dt_dissolution = 1/max_K_D
     dt_nuc_and_growth = 1/(max_K_N+5*max_K_G)
     
+    if test_t_set == 0:
+        dt_test_t_set = 1e12
+    else:
+        dt_test_t_set = test_t_set
+    
     # Compute the minimum time step that ensures a stable solution.
     
-    dt_array = np.array([dt_flux, dt_nucleation, dt_growth, dt_dissolution, dt_nuc_and_growth])
+    dt_array = np.array([dt_flux, dt_nucleation, dt_growth, dt_dissolution, dt_nuc_and_growth, dt_test_t_set])
+    dt_array = dt_array[reaction_type]
     dt = np.min(dt_array/dt_div)
     
     return dt
@@ -1017,10 +1049,14 @@ def simulate(temperature_data, hydrogen_data, experiment_data, simulation_data, 
         J_diff = calc_diffusion_flux(n_nodes, flux_left, flux_right, Q_star, V_star, 
                                      dx, temperature_profile[:,1], diffusion_coefficient, Css[:,1], 
                                      hydrostatic_stress)
-            
+        
+        # Calculate reaction type in order to choose appropiate time step.
+        
+        reaction_type = calc_reaction_type(Css[:,1], Cp, TSSd, TSSp, activate_nucleation, activate_dissolution, activate_growth)
+                    
         # Calculate time step.
         
-        dt = time_step(dx, max_K_G, max_K_N, max_K_D, Q_star, dt_div, diffusion_coefficient, temperature_profile[:,1])
+        dt = time_step(dx, max_K_G, max_K_N, max_K_D, Q_star, dt_div, diffusion_coefficient, temperature_profile[:,1], test_t_set, reaction_type)
         
         # Solve the diffusion equation for hydrogen in solid solution.
         
