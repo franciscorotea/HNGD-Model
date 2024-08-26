@@ -4,7 +4,7 @@ import hngd.run
 
 experiment_data = (0.025, 0, 0, 1, 0)
 
-simulation_data = ('test', 70, 2, 40, 0.01, 'mhngd')
+simulation_data = ('test', 3, 2, 40, 0.01, 'mhngd')
 
 temperature_data = np.array([[np.nan,   0, experiment_data[0]],
                              [     0,  20,                 20],
