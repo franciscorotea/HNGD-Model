@@ -33,8 +33,8 @@ Ref.:
 
 import numpy as np
 from numba import njit
-#from numba import config
-#config.DISABLE_JIT=True
+from numba import config
+config.DISABLE_JIT=True
 
 ###############################################################################
 
@@ -977,7 +977,11 @@ def simulate(temperature_data, hydrogen_data, experiment_data, simulation_data, 
     
     ########################## START TIME LOOP ################################
     
-    while t < t_max:
+    end_time = False
+    finish_simulation = False
+    finish_time = 0
+    
+    while t < t_max or end_time:
         
         # Use linear interpolation to find the temperature values at the input 
         # positions in the sample for time t.
@@ -1058,6 +1062,11 @@ def simulate(temperature_data, hydrogen_data, experiment_data, simulation_data, 
         
         dt = time_step(dx, max_K_G, max_K_N, max_K_D, Q_star, dt_div, diffusion_coefficient, temperature_profile[:,1], test_t_set, reaction_type)
         
+        if end_time:
+            dt = t_max - finish_time
+            t = finish_time + dt
+            finish_simulation = True
+        
         # Solve the diffusion equation for hydrogen in solid solution.
         
         Css[1:-1, 1] = Css[1:-1, 0] - np.diff(J_diff) / dx*dt
@@ -1095,7 +1104,7 @@ def simulate(temperature_data, hydrogen_data, experiment_data, simulation_data, 
         # (2) the time is one of the time stamps specified in the input by the 
         # user, or (3) some time `test_t_set` has passed without an output.
        
-        if hydrogen_profile_changed or temperature_profile_changed or t in input_time_stamps or test_t >= test_t_set:
+        if hydrogen_profile_changed or temperature_profile_changed or t in input_time_stamps or test_t >= test_t_set or t == finish_time:
             
             # Growth and nucleation fraction: which fraction of the hydride
             # precipitation corresponds to growth and which fraction to 
@@ -1116,12 +1125,19 @@ def simulate(temperature_data, hydrogen_data, experiment_data, simulation_data, 
             
             test_t = 0
         
-        # Actualize values for next time step
+        # Update values for next time step
         
         Css[:,0] = Css[:,1]
         temperature_profile[:,0] = temperature_profile[:,1]
         
         # Next time step
         
+        if finish_simulation:
+            break
+        
         t = t + dt
         test_t = test_t + dt
+        
+        if t > t_max:
+            end_time = True
+            finish_time=t-dt
