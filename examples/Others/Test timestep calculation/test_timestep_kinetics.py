@@ -202,6 +202,7 @@ temperature = nucleation['temperature']
 Cp = nucleation['initial_Cp']
 Css = nucleation['initial_Css']
 TSSp = TSSp_fun(temperature)
+TSSd = TSSd_fun(temperature)
 C_tot = Cp + Css
 K_N = calc_K_N(temperature, TSSd, Cp)
 analytical_solution = TSSp + (C_tot-TSSp) * np.exp(-K_N*t)
