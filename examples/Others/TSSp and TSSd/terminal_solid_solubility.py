@@ -48,15 +48,17 @@ database = {'Singh et al. (Zry-2)': {'Reference': '[1]',
                                      'Q_TSSd': 30004,
                                      'Q_TSSp': 25930,
                                      'linestyle': (0, (1, 1))},
-            'Singh et al. (Zr-2.5Nb)': {'Reference': '[1]',
-                                        'Year': '2005',
-                                        'Material': 'Zr-2.5Nb',
-                                        'Note': 'Cold-worked pressure tube',
-                                        'TSSd0': 6.358e4,
-                                        'TSSp0': 3.235e3,
-                                        'Q_TSSd': 35440,
-                                        'Q_TSSp': 17210,
-                                        'linestyle': (5, (10, 3))},
+# =============================================================================
+#             'Singh et al. (Zr-2.5Nb)': {'Reference': '[1]',
+#                                         'Year': '2005',
+#                                         'Material': 'Zr-2.5Nb',
+#                                         'Note': 'Cold-worked pressure tube',
+#                                         'TSSd0': 6.358e4,
+#                                         'TSSp0': 3.235e3,
+#                                         'Q_TSSd': 35440,
+#                                         'Q_TSSp': 17210,
+#                                         'linestyle': (5, (10, 3))},
+# =============================================================================
             'Giroldi et al. (Zr-2.5Nb)': {'Reference': '[2]',
                                           'Year': '2009',
                                           'Material': 'Zr-2.5Nb',
@@ -160,19 +162,8 @@ database = {'Singh et al. (Zry-2)': {'Reference': '[1]',
 # =============================================================================
         }
 
-R = 8.31446261815324 # Gas constant [J mol-1 K-1]
-temperature = np.linspace(0, 500, 500) + 273 # Temperature [K]
-
-# TODO > chequear este valor de Singh, debe estar mal reportado en la Tabla 3.
-# Probar sacando los datos de las Fig. 6 y 7.
-
-plt.figure()
-asd = database['Singh et al. (Zr-2.5Nb)']
-TSSp = asd['TSSp0'] * np.exp(-asd['Q_TSSp']/(R*temperature))
-plt.plot(TSSp, temperature, linestyle=asd['linestyle'], color='#1f77b4', label='TSSp')
-TSSd = asd['TSSd0'] * np.exp(-asd['Q_TSSd']/(R*temperature))
-plt.plot(TSSd, temperature, linestyle=asd['linestyle'], color='#ff7f0e', label='TSSd')
-
+R = 8.31446261815324                            # Gas constant [J mol-1 K-1]
+temperature = np.linspace(0, 500, 500) + 273    # Temperature [K]
 
 fig, ax = plt.subplots(figsize=(7,4))
 
