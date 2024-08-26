@@ -99,8 +99,8 @@ nucleation = {'initial_Css': 550,
               'temperature': 600,
               'time': np.linspace(0, 350, 1000)}
 
-growth = {'initial_Css': 110,
-          'initial_Cp': 145,
+growth = {'initial_Css': 180,
+          'initial_Cp': 255,
           'temperature': 603,
           'time': np.linspace(0, 7500, 1000)}
 
@@ -182,7 +182,7 @@ temperature_data = np.array([[np.nan,       0,     0.1],
                              [ 350/60, 600-273, 600-273]])
 
 for dt_div in [1, 2, 5, 10]:
-    simulation_data = (f'nucleation_{dt_div}', 10, dt_div, 0, 0, 'HNGD')
+    simulation_data = (f'nucleation_{dt_div}', 500, dt_div, 0, 0, 'HNGD')
     hngd.run.simulation(temperature_data, initial_hydrogen_data, experiment_data, simulation_data, 
                         model_parameters, activate_growth=False)
 
@@ -263,7 +263,9 @@ ax[2].plot(time2, Css2, '^:', markerfacecolor='white', markersize=4, label='Nume
 ax[2].plot(time5, Css5, 's:', markerfacecolor='white', markersize=4, label='Numerical, dt_div=5')
 ax[2].plot(time10, Css10, 'h:', markerfacecolor='white', markersize=4, label='Numerical, dt_div=10')
 
-ax[2].plot(t, analytical_solution, linewidth=2, color='k', label='Analytic')
+# For now, don't plot analytic (different from paper?)
+
+#ax[2].plot(t, analytical_solution, linewidth=2, color='k', label='Analytic')
 
 ax[2].set_title('Growth')
 ax[2].set_xlabel('Time [s]')
