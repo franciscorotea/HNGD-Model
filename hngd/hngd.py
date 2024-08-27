@@ -847,12 +847,6 @@ def simulate(temperature_data, hydrogen_data, experiment_data, simulation_data, 
     
     ########################## PARSE INPUT DATA ###############################
     
-    # Thermal history
-    
-    input_temperature_positions = temperature_data[0, 1:]
-    input_time_stamps = temperature_data[1:, 0]
-    input_temperature = temperature_data[1:, 1:]
-    
     # Experimental data
     
     slab_length, flux_left, flux_right, liner_solubility_factor, liner_width = experiment_data
@@ -860,18 +854,18 @@ def simulate(temperature_data, hydrogen_data, experiment_data, simulation_data, 
     # Simulation data
     
     name, n_nodes, dt_div, test_t_set, criterion, model = simulation_data
-
-    # Initial hydrogen distribution
     
-    if hydrogen_data.ndim == 2:
-        input_hydrogen_positions = hydrogen_data[0]
-        input_hydrogen_initial_concentration = hydrogen_data[1]
-        
     # Thermal history
     
     input_temperature_positions = temperature_data[0, 1:]
     input_time_stamps = temperature_data[1:, 0]
     input_temperature = temperature_data[1:, 1:]
+    
+    # Initial hydrogen distribution
+    
+    if hydrogen_data.ndim == 2:
+        input_hydrogen_positions = hydrogen_data[0]
+        input_hydrogen_initial_concentration = hydrogen_data[1]
     
     # Model parameters
     
